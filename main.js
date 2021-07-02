@@ -3,7 +3,10 @@
 const puppeteer = require('puppeteer');
 (async() => {
   const browser = await puppeteer.launch({
-     //args: [ '--proxy-server=http://ip:port' ]
+    args: [
+        //'--proxy-server=http://ip:port'
+        '--no-sandbox'
+    ]
   });
   const page = await browser.newPage();
   await page.goto('https://api.myip.com');
