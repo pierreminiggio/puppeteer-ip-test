@@ -4,12 +4,20 @@ const puppeteer = require('puppeteer');
 (async() => {
   const browser = await puppeteer.launch({
     args: [
-        //'--proxy-server=http://ip:port'
+        '--proxy-server=http://toulouse.ggio.fr:808',
         '--no-sandbox'
     ]
   });
   const page = await browser.newPage();
-  await page.goto('https://api.myip.com');
+  try {
+    await page.goto('https://api.myip.com');
+  } catch(error) {
+      console.log(error)
+      await browser.close()
+
+      return
+  }
+  
   const html = await page.evaluate(() => {
       return document.body.outerHTML
   })
