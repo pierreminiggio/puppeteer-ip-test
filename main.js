@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
     '--no-sandbox'
   ]
 
-  if (process.argv.length !== 3) {
+  if (process.argv.length === 3) {
     args.push('--proxy-server=' + process.argv[2])
   }
 
