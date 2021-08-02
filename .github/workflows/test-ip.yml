@@ -11,7 +11,9 @@ jobs:
       - uses: actions/setup-node@main
       - run: sudo apt update
       - run: npm i
-      - run: node main.js > ip.json
+      - run: node main.js $PROXY > ip.json
+        env:
+          PROXY: ${{ secrets.PROXY }}
       - uses: actions/upload-artifact@v2
         with:
           name: ip.json
