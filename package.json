@@ -1,5 +1,7 @@
 {
+  "type": "module",
   "dependencies": {
+    "@pierreminiggio/puppeteer-proxy-login": "github:pierreminiggio/puppeteer-proxy-login",
     "puppeteer": "^10.1.0"
   }
 }

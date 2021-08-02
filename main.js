@@ -1,49 +1,24 @@
 'use strict';
 
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer'
+import proxyLogin from '@pierreminiggio/puppeteer-proxy-login'
 
 (async() => {
 
-  const args = [
-    '--no-sandbox'
-  ]
-
-  let proxy = null
-  let needsAuth = false
-  let username = null
-  let password = null
-
-  if (process.argv.length === 3) {
-    const inputProxy = process.argv[2]
-    const splitProxy = inputProxy.split('@')
-    needsAuth = splitProxy.length > 1
-
-    if (needsAuth) {
-      const usernameAndPasswordAndMethod = splitProxy[0]
-      const methodSeparator = '://'
-      const splitUsernameAndPasswordAndMethod = usernameAndPasswordAndMethod.split(methodSeparator)
-      const method = splitUsernameAndPasswordAndMethod[0]
-      const usernameAndPassword = splitUsernameAndPasswordAndMethod[1]
-      const splitUsernameAndPassword = usernameAndPassword.split(':')
-      username = splitUsernameAndPassword[0]
-      password = splitUsernameAndPassword[1]
-      proxy = method + methodSeparator + splitProxy[1]
-    } else {
-      proxy = inputProxy
-    }
-  }
-
-  if (proxy) {
-    args.push('--proxy-server=' + proxy)
-  }
+  const {alterPuppeteerOptions, pageAuthenticate} = proxyLogin(process.argv.length ? process.argv[2] : null)
   
+  /** @type {import('puppeteer').BrowserLaunchArgumentOptions} */
+  const puppeteerOptions = {
+    args: [
+      '--no-sandbox'
+    ]
+  }
+  alterPuppeteerOptions(puppeteerOptions)
 
-  const browser = await puppeteer.launch({args});
+  const browser = await puppeteer.launch(puppeteerOptions);
   const page = await browser.newPage();
 
-  if (needsAuth) {
-    await page.authenticate({username, password})
-  }
+  await pageAuthenticate(page)
 
   try {
     await page.goto('https://api.myip.com');
