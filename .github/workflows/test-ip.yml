@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@main
       - run: sudo apt update
       - run: npm i
-      - run: node main.js http://toulouse.ggio.fr:808 > ip.json
+      - run: node main.js > ip.json
       - uses: actions/upload-artifact@v2
         with:
           name: ip.json
