@@ -1,10 +1,17 @@
 'use strict';
 
+const args = process.argv
+
+if (args.length !== 3) {
+    console.log('use like this : node main.js <proxy>')
+    process.exit()
+}
+
 const puppeteer = require('puppeteer');
 (async() => {
   const browser = await puppeteer.launch({
     args: [
-        '--proxy-server=http://toulouse.ggio.fr:808',
+        '--proxy-server=' + args[2],
         '--no-sandbox'
     ]
   });
