@@ -1,0 +1,18 @@
+on:
+  workflow_dispatch:
+    inputs:
+name: Test IP
+jobs:
+  render:
+    name: Render video
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@main
+      - run: sudo apt update
+      - run: npm i
+      - run: node main.js http://toulouse.ggio.fr:808 > ip.json
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ip.json
+          path: ip.json
