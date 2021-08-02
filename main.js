@@ -2,16 +2,16 @@
 
 const puppeteer = require('puppeteer');
 (async() => {
-  const browser = await puppeteer.launch({
-    args: [
-        '--no-sandbox'
-    ]
 
-    if (process.argv.length !== 3) {
-        args.push('--proxy-server=' + process.argv[2])
-    }
+  const args = [
+    '--no-sandbox'
+  ]
 
-  });
+  if (process.argv.length !== 3) {
+    args.push('--proxy-server=' + process.argv[2])
+  }
+
+  const browser = await puppeteer.launch({args});
   const page = await browser.newPage();
   try {
     await page.goto('https://api.myip.com');
@@ -21,7 +21,7 @@ const puppeteer = require('puppeteer');
 
       return
   }
-  
+
   const html = await page.evaluate(() => {
       return document.body.outerHTML
   })
