@@ -1,6 +1,8 @@
 'use strict';
 
 const puppeteer = require('puppeteer');
+const proxyChain = require('proxy-chain');
+
 (async() => {
 
   const args = [
@@ -8,7 +10,7 @@ const puppeteer = require('puppeteer');
   ]
 
   if (process.argv.length === 3) {
-    args.push('--proxy-server=' + process.argv[2])
+    args.push('--proxy-server=' + await proxyChain.anonymizeProxy(process.argv[2]))
   }
 
   const browser = await puppeteer.launch({args});
